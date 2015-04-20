@@ -3,42 +3,42 @@ var Rules = require("../lib/Rules");
 
 
 describe("Rules", function() {
-  it("populated multiple outcomes", function() {
+  it("populates multiple outcomes", function() {
     var config = {
       "Must be 21 or older": {
-        //if all "tests" in the if statement match,
         if: {
           "person.age": {
             lessThan: 21
           }
         },
-        //process all of the outcomes
         then: {
           "person.error": "Must be 21 or older",
-          "errors[]": "person"
+          "errors.all[]": "person"
         }
       },
       "Must be employed": {
-        //if all "tests" in the if statement match,
         if: {
           "company.isEmployed": false
         },
-        //process all of the outcomes
         then: {
           "company.error": "Must be employed",
-          "errors[]": "company"
+          "errors.all[]": "company"
         }
       }
     };
     var data = {
       person: {
         age: 20
+      },
+      company: {
+        isEmployed: false
       }
     };
+
     var rules = new Rules(config);
     var results = rules.run(data);
     assert.equal(results.person.error, "Must be 21 or older");
-    assert.deepEqual(results.errors, ["person", "company"]);
+    assert.deepEqual(results.errors.all, ["person", "company"]);
   });
 
   it("populates multiple outcomes into an array when [] is added", function() {

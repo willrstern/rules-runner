@@ -33,6 +33,9 @@ var config = {
 var data = {
   person: {
     age: 20
+  },
+  company: {
+    isEmployed: false
   }
 };
 
