@@ -1,5 +1,5 @@
 {
-  "name": "node-business-rules",
+  "name": "rules-runner",
   "version": "1.0.0",
   "description": "A JS business rules engine for node",
   "keywords": [
