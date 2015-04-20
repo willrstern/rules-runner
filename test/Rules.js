@@ -142,4 +142,44 @@ describe("options", function() {
 
     assert.equal(data.cantDrive, true);
   });
+
+  it("caseSensitive: false ignores case on contains", function() {
+    var data = {
+      person: { jobDescription: "Nursing management and oversight" }
+    };
+
+    var config = {
+      "Anything to do with nursing is a good thing": {
+        if: {
+          "person.jobDescription": { contains: "nursing" }
+        },
+        then: { "status.hasGoodJob": true }
+      }
+    };
+
+    var rules = new Rules(config, {caseSensitive: false});
+    var results = rules.run(data);
+
+    assert.equal(results.status.hasGoodJob, true);
+  });
+
+  it("caseSensitive: false ignores case on equality", function() {
+    var data = {
+      name: "John"
+    };
+
+    var config = {
+      "John is a great name": {
+        if: {
+          "name": "john"
+        },
+        then: { "status.hasGreatName": true }
+      }
+    };
+
+    var rules = new Rules(config, {caseSensitive: false});
+    var results = rules.run(data);
+
+    assert.equal(results.status.hasGreatName, true);
+  });
 });
