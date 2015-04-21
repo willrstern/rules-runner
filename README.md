@@ -3,8 +3,13 @@ node-business-rules allows you to cleanly abstract your rules away from your app
 - run your dataset against a config JSON object
 - results can modify your dataset or can return a new dataset of outcomes
 
+# Installation
+`npm install rules-runner`
+
 # Examples
 ```js
+var Rules = require("rules-runner");
+
 var config = {
   "Must be 21 or older": {
     //if all "tests" in the if statement match,
@@ -16,7 +21,7 @@ var config = {
     //process all of the outcomes
     then: {
       "person.error": "Must be 21 or older",
-      "errors[]": "person"
+      "errors.all[]": "person"
     }
   },
   "Must be employed": {
@@ -25,7 +30,7 @@ var config = {
     },
     then: {
       "company.error": "Must be employed",
-      "errors[]": "company"
+      "errors.all[]": "company" //add [] to the end of a key to push values onto an array
     }
   };
 };
@@ -42,8 +47,8 @@ var data = {
 var rules = new Rules(config);
 var results = rules.run(data);
 assert.equal(results.person.error, "Must be 21 or older");
-assert.equal(results.errors.length, 2);
-assert.deepEqual(results.errors, ["person", "company"]);
+assert.equal(results.errors.all.length, 2);
+assert.deepEqual(results.errors.all, ["person", "company"]);
 ```
 
 # Comparators/Tests
@@ -53,6 +58,7 @@ assert.deepEqual(results.errors, ["person", "company"]);
 - **greaterThan**: `"person.age": {greaterThan: 20}`
 - **in**: `"person.state": {in: ["CA", "TX", "NY"]}`
 - **lessThan**: `"person.age": {lessThan: 21}`
+- **matches**: `"person.name"`: {matches: "/(john|bob|mary)/i"}
 - **not**: `"person.state": {not: "CA"}`, `"person.state": {not: {in: ["CA", "TX"]}}`
 
 # Options
