@@ -19,6 +19,23 @@ describe("matches comparator", function() {
     });
   });
 
+  it("doesn't match values not in regex", function() {
+    var config = {
+      "Any of these people have great names": {
+        if: {
+          "val": { matches: "/(John|Bob|Mary)/i" }
+        },
+        then: { "hasGreatName": true }
+      }
+    };
+
+    [{val: "Juanito"}, {val: "Frank"}, {val: "Beatrice"}].forEach(function(data) {
+      var rules = new Rules(config);
+      var results = rules.run(data);
+      assert.equal(results.hasGreatName, undefined);
+    });
+  });
+
   it("accepts regex flags", function() {
     var config = {
       "Any of these people have great names": {
