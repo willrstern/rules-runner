@@ -30,10 +30,28 @@ describe("in comparator", function() {
       }
     };
 
-    [{val: 2}, {val: "b"}, {val: null}, {val: NaN}].forEach(function(data) {
+    [{val: 2}, {val: "b"}, {val: NaN}].forEach(function(data) {
       var rules = new Rules(config);
       var results = rules.run(data);
       assert.equal(results.winsAPrize, undefined);
+    });
+
+  });
+
+  it("parses values to string when stringNumbers is true", function() {
+    var config = {
+      "Any of these values win a prize": {
+        if: {
+          "val": { in: ["1", "2", "3"] }
+        },
+        then: { "winsAPrize": true }
+      }
+    };
+
+    [{val: 2}, {val: "1"}].forEach(function(data) {
+      var rules = new Rules(config);
+      var results = rules.run(data);
+      assert.equal(results.winsAPrize, true);
     });
 
   });

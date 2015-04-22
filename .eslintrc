@@ -142,7 +142,7 @@
     "default-case": 0,
     "dot-notation": [2, { "allowKeywords": true }],
     "eol-last": 2,
-    "eqeqeq": 2,
+    "eqeqeq": 0,
     "func-names": 0,
     "func-style": [0, "declaration"],
     "generator-star": 0,
