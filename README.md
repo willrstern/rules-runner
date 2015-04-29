@@ -50,7 +50,7 @@ var data = {
 var rules = new Rules(config);
 var results = rules.run(data);
 assert.equal(results.person.error, "Must be 21 or older");
-assert.equal(results.errors.all.length, 2);
+assert.equal(results.company.error, "Must be employed");
 assert.deepEqual(results.errors.all, ["person", "company"]);
 ```
 
@@ -65,6 +65,9 @@ assert.deepEqual(results.errors.all, ["person", "company"]);
 - **not**: `"person.state": {not: "CA"}`, `"person.state": {not: {in: ["CA", "TX"]}}`
 
 # Options
+- **caseSensitive**
+  - default: `true`
+  - `contains` and `equals` ignore case
 - **rulesModifyData**
   - default: `true`
   - matching rules modify original data set `rules.run()` returns modified dataset.
