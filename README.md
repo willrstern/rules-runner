@@ -1,8 +1,8 @@
 
-[![travis build status](https://travis-ci.org/willrstern/node-business-rules.svg?branch=master)](https://github.com/willrstern/node-business-rules)
+[![travis build status](https://travis-ci.org/willrstern/rules-runner.svg?branch=master)](https://github.com/willrstern/rules-runner)
 
 # Introduction
-node-business-rules allows you to cleanly abstract your rules away from your application code
+rules-runner allows you to cleanly abstract your rules away from your application code
 - run your dataset against a config JSON object
 - results can modify your dataset or can return a new dataset of outcomes
 
