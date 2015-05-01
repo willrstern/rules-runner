@@ -14,16 +14,17 @@ rules-runner allows you to cleanly abstract your rules away from your applicatio
 var Rules = require("rules-runner");
 
 var config = {
-  "Must be 21 or older": {
+  "Must be 16 or older if no adult is present": {
     //if all "tests" in the if statement match,
     if: {
       "person.age": {
-        lessThan: 21
-      }
+        lessThan: 16
+      },
+      "person.adultPresent": false
     },
     //process all of the outcomes
     then: {
-      "person.error": "Must be 21 or older",
+      "person.error": "Must be 16 or older if no adult is present",
       "errors.all[]": "person"
     }
   },
@@ -40,7 +41,8 @@ var config = {
 
 var data = {
   person: {
-    age: 20
+    age: 15,
+    adultPresent: false
   },
   company: {
     isEmployed: false
@@ -48,10 +50,13 @@ var data = {
 };
 
 var rules = new Rules(config);
-var results = rules.run(data);
-assert.equal(results.person.error, "Must be 21 or older");
-assert.equal(results.company.error, "Must be employed");
-assert.deepEqual(results.errors.all, ["person", "company"]);
+rules.run(data);
+assert.equal(data.person.error, "Must be 16 or older if no adult is present");
+assert.equal(data.company.error, "Must be employed");
+assert.deepEqual(data.errors.all, ["person", "company"]);
+//by default, rules modify data object
+//only want results leaving data unchanged? 
+//var results = rules.run(data, {rulesModifyData: false});
 ```
 
 # Comparators/Tests
