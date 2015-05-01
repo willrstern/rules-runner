@@ -19,7 +19,6 @@ describe("contains comparator", function() {
     ].forEach(function(data) {
       var rules = new Rules(config);
       var results = rules.run(data);
-      console.log(data);
       assert.equal(results.status.hasGoodJob, true);
     });
   });
@@ -41,7 +40,6 @@ describe("contains comparator", function() {
     ].forEach(function(data) {
       var rules = new Rules(config, {caseSensitive: false});
       var results = rules.run(data);
-      console.log(data);
       assert.equal(results.status.hasGoodJob, true);
     });
   });
@@ -63,7 +61,6 @@ describe("contains comparator", function() {
     ].forEach(function(data) {
       var rules = new Rules(config);
       var results = rules.run(data);
-      console.log(data);
       assert.equal(results.status, undefined);
     });
   });
