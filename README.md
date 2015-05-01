@@ -5,6 +5,7 @@
 rules-runner allows you to cleanly abstract your rules away from your application code
 - run your dataset against a config JSON object
 - results can modify your dataset or can return a new dataset of outcomes
+- It's isomorphic and has minimal package dependencies - great for the browser and the server
 
 # Installation
 `npm install rules-runner`
