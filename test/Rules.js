@@ -74,6 +74,52 @@ describe("Rules", function() {
       "Must be a citizen"
     ]);
   });
+
+  it("doesn't throw path errors with strict:false", function() {
+    var config = {
+      "name must be set": {
+        if: {
+          "person.name": { not: undefined }
+        },
+        then: {
+          "errors[]": "Must have a name"
+        },
+      },
+    };
+
+    var data = {
+      person: {
+        age: 34
+      },
+    };
+    var rules = new Rules(config);
+    assert.doesNotThrow(function() {
+      rules.run(data);
+    }, "should not throw path errors with strict:false");
+  });
+
+  it("throws path errors with strict:true", function() {
+    var config = {
+      "name must be set": {
+        if: {
+          "person.name": { not: undefined }
+        },
+        then: {
+          "errors[]": "Must have a name"
+        },
+      },
+    };
+
+    var data = {
+      person: {
+        age: 34
+      },
+    };
+    var rules = new Rules(config, {strict: true});
+    assert.throws(function() {
+      rules.run(data);
+    }, "should throw path errors with strict:false");
+  });
 });
 
 describe("options", function() {
