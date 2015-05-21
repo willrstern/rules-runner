@@ -1,6 +1,6 @@
 {
   "name": "rules-runner",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "A JS business rules engine for node",
   "keywords": [
     "business rules",
