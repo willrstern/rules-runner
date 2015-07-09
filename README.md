@@ -80,4 +80,4 @@ assert.deepEqual(data.errors.all, ["person", "company"]);
   - when `false`, rules create a new object, which gets returned.
 - **stringNumbers**:
   - default: `true`
-  - `greaterThan`, `lessThan`, and `between` comparators will parse numbers
+  - `greaterThan`, `lessThan`, and `between` comparators will parse numbers.  `in` will match with `==` instead of `===`
