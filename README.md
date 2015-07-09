@@ -76,8 +76,12 @@ assert.deepEqual(data.errors.all, ["person", "company"]);
   - `contains` and `equals` ignore case
 - **rulesModifyData**
   - default: `true`
-  - matching rules modify original data set `rules.run()` returns modified dataset.
-  - when `false`, rules create a new object, which gets returned.
+  - matching rules modify original data set `rules.run()` returns modified dataset
+  - when `false`, rules create a new object, which gets returned
+- **strict**
+  - default: `false`
+  - useful for debugging. when `true`, if a rule path (i.e. `if: "person.age"`) isn't found in data, an error is thrown
+  - when `false`, a rule path that isn't set in data evaluates to `undefined`
 - **stringNumbers**:
   - default: `true`
   - `greaterThan`, `lessThan`, and `between` comparators will parse numbers.  `in` will match with `==` instead of `===`
