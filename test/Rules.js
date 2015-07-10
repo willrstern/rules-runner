@@ -120,6 +120,27 @@ describe("Rules", function() {
       rules.run(data);
     }, "should throw path errors with strict:false");
   });
+
+  it("doesn't run tests for path errors with strict:false", function() {
+    var config = {
+      "name must be set": {
+        if: {
+          "person.age": { between: [10,20] }
+        },
+        then: {
+          "errors[]": "Must be between 10 and 20"
+        },
+      },
+    };
+
+    var data = {
+      person: {
+        name: "Bob"
+      },
+    };
+    var rules = new Rules(config);
+    rules.run(data);
+  });
 });
 
 describe("options", function() {
