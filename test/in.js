@@ -6,13 +6,13 @@ describe("in comparator", function() {
     var config = {
       "Any of these values win a prize": {
         if: {
-          "val": { in: [1, "a", undefined] }
+          "val": { in: [1, "a", true] }
         },
         then: { "winsAPrize": true }
       }
     };
 
-    [{val: 1}, {val: "a"}, {val: undefined}].forEach(function(data) {
+    [{val: 1}, {val: "a"}, {val: true}].forEach(function(data) {
       var rules = new Rules(config);
       var results = rules.run(data);
       assert.equal(results.winsAPrize, true);
