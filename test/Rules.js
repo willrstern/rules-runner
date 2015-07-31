@@ -1,7 +1,6 @@
 var assert = require("assert");
 var Rules = require("../lib/Rules");
 
-
 describe("Rules", function() {
   it("populates multiple outcomes", function() {
     var config = {
@@ -41,12 +40,40 @@ describe("Rules", function() {
     assert.deepEqual(results.errors.all, ["person", "company"]);
   });
 
+  it('tests alternative conditional using elseif', function() {
+    var config = {
+      "Person will be in house if person is tired or hungry": {
+        if: {
+          "person.tired": true
+        },
+        elseif:  {
+          "person.hungry": true
+        },
+        then: {
+          "person.location": "house"
+        }
+      }
+    };
+    var data = {
+      person: {
+        tired: false,
+        hungry: true
+      }
+    };
+
+    var rules = new Rules(config);
+    rules.run(data);
+
+    assert.equal(data.person.location, 'house');
+  });
+
   it("populates multiple outcomes into an array when [] is added", function() {
     var config = {
       "Must be 21 or older": {
         if: {
           "person.age": { lessThan: 21}
         },
+
         then: {
           "errors[]": "Must be 21 or older"
         }
