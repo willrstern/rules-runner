@@ -123,7 +123,7 @@ var config = {
 ```
 
 # Comparators/Tests
-- **between**: `"person.age": {between: [1, 20]}`
+- **between**: `"person.age": {between: [1, 20]}` (note: this is exclusive of given values)
 - **equality/scalar values**: `"person.exists": true` `"person.firstName": "John"`
 - **contains**: `"person.name": {contains: "Jr"}`` (also checks for values in arrays)
 - **greaterThan**: `"person.age": {greaterThan: 20}`
