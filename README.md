@@ -16,7 +16,7 @@ var Rules = require("rules-runner");
 
 var config = {
   "Must be 16 or older if no adult is present": {
-    //if all "tests" in the if statement match,
+    //if ALL "tests" in the if statement match,
     if: {
       "person.age": {
         lessThan: 16
@@ -61,27 +61,27 @@ assert.deepEqual(data.errors.all, ["person", "company"]);
 ```
 
 
-#Also possible to test a series of if statements in an Array, as OR like conditionals
+#Use an array of `if` statements to treat conditions as `else if` or `OR like`
 
 ```js
 
 var config = {
-    "Person will be in house if person is tired or hungry": {
-            if: [
-                {"person.tired": true},
-                {"person.hungry": true}
-            ],
-            then: {
-                "person.location": "house"
-            }
-        }
-    };
+  "Person will be in house if person is tired or hungry": {
+    if: [
+      {"person.tired": true}, //if this matches
+      {"person.hungry": true} //OR if this matches
+    ],
+    then: {
+      "person.location": "house" //then run this
+    }
+  }
+};
     
 var data = {
-    person: {
-        tired: false,
-        hungry: true
-    }
+  person: {
+    tired: false,
+    hungry: true
+  }
 };
 
 var rules = new Rules(config);
@@ -90,30 +90,29 @@ rules.run(data);
 assert.equal(data.person.location, 'house');
 ```
 
-#And if no conditions are true, then process an `otherwise` clause
-
+#`otherwise` will process if no conditions match
 
 ```js
 
 var config = {
-    "Person will be in house if person is tired or hungry": {
-        if: [
-            {"person.tired": true},
-            {"person.hungry": true}
-        ],
-        then: {
-            "person.location": "house"
-        },
-        otherwise: { // if all conditions are false
-            "person.location": 'work'
-        }
+  "Person will be in house if person is tired or hungry": {
+    if: [
+      {"person.tired": true},
+      {"person.hungry": true}
+    ],
+    then: {
+      "person.location": "house"
+    },
+    otherwise: { // if all conditions are false
+      "person.location": 'work'
     }
+  }
 };
 var data = {
-    person: {
-        tired: false,
-        hungry: false
-    }
+  person: {
+    tired: false,
+    hungry: false
+  }
 };
 
 var rules = new Rules(config);
@@ -129,7 +128,7 @@ assert.equal(data.person.location, 'work');
 - **greaterThan**: `"person.age": {greaterThan: 20}`
 - **in**: `"person.state": {in: ["CA", "TX", "NY"]}`
 - **lessThan**: `"person.age": {lessThan: 21}`
-- **matches**: `"person.name"`: {matches: "/(john|bob|mary)/i"}
+- **matches**: `"person.name": {matches: "/(john|bob|mary)/i"i`
 - **not**: `"person.state": {not: "CA"}`, `"person.state": {not: {in: ["CA", "TX"]}}`
 
 # Options
