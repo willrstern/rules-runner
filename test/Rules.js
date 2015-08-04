@@ -141,6 +141,89 @@ describe("Rules", function() {
     var rules = new Rules(config);
     rules.run(data);
   });
+
+  it("tests alternative outcome if rule validation comes back false", function () {
+    var config = {
+      "Person will be in house if person is tired or hungry": {
+        if: {
+          "person.tired": true
+        },
+        then: {
+          "person.location": "house"
+        },
+        otherwise: {
+          "person.location": "work"
+        }
+      }
+    };
+    var data = {
+      person: {
+        tired: false,
+        hungry: false
+      }
+    };
+
+    var rules = new Rules(config);
+    rules.run(data);
+
+    assert.equal(data.person.location, "work");
+  });
+
+  it("tests a series of if conditions (Array), as separate OR rules", function () {
+    var config = {
+      "Person will be in house if person is tired or hungry": {
+        if: [
+          {"person.tired": true},
+          {"person.hungry": true}
+        ],
+        then: {
+          "person.location": "house"
+        },
+        otherwise: {
+          "person.location": 'work'
+        }
+      }
+    };
+    var data = {
+      person: {
+        tired: false,
+        hungry: true
+      }
+    };
+
+    var rules = new Rules(config);
+    rules.run(data);
+
+    assert.equal(data.person.location, "house");
+  });
+
+  it("tests a series of if (OR) conditions, and applies `otherwise` outcome if all fail", function () {
+    var config = {
+      "Person will be in house if person is tired or hungry": {
+        if: [
+          {"person.tired": true},
+          {"person.hungry": true}
+        ],
+        then: {
+          "person.location": "house"
+        },
+        otherwise: {
+          "person.location": "work"
+        }
+      }
+    };
+    var data = {
+      person: {
+        tired: false,
+        hungry: false
+      }
+    };
+
+    var rules = new Rules(config);
+    rules.run(data);
+
+    assert.equal(data.person.location, "work");
+  });
 });
 
 describe("options", function() {
