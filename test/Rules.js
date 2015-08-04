@@ -96,7 +96,7 @@ describe("Rules", function () {
     assert.equal(data.person.location, "house");
   });
 
-  it("tests a series of if (OR) conditions, and makes elseThen outcome if all fail", function () {
+  it("tests a series of if (OR) conditions, and applies `otherwise` outcome if all fail", function () {
     var config = {
       "Person will be in house if person is tired or hungry": {
         if: [
