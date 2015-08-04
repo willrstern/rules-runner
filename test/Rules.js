@@ -1,8 +1,9 @@
 var assert = require("assert");
 var Rules = require("../lib/Rules");
 
-describe("Rules", function () {
-  it("populates multiple outcomes", function () {
+
+describe("Rules", function() {
+  it("populates multiple outcomes", function() {
     var config = {
       "Must be 21 or older": {
         if: {
@@ -40,97 +41,12 @@ describe("Rules", function () {
     assert.deepEqual(results.errors.all, ["person", "company"]);
   });
 
-
-  it("tests alternative outcome if rule validation comes back false", function () {
-    var config = {
-      "Person will be in house if person is tired or hungry": {
-        if: {
-          "person.tired": true
-        },
-        then: {
-          "person.location": "house"
-        },
-        otherwise: {
-          "person.location": "work"
-        }
-      }
-    };
-    var data = {
-      person: {
-        tired: false,
-        hungry: false
-      }
-    };
-
-    var rules = new Rules(config);
-    rules.run(data);
-
-    assert.equal(data.person.location, "work");
-  });
-
-  it("tests a series of if conditions (Array), as separate OR rules", function () {
-    var config = {
-      "Person will be in house if person is tired or hungry": {
-        if: [
-          {"person.tired": true},
-          {"person.hungry": true}
-        ],
-        then: {
-          "person.location": "house"
-        },
-        otherwise: {
-          "person.location": 'work'
-        }
-      }
-    };
-    var data = {
-      person: {
-        tired: false,
-        hungry: true
-      }
-    };
-
-    var rules = new Rules(config);
-    rules.run(data);
-
-    assert.equal(data.person.location, "house");
-  });
-
-  it("tests a series of if (OR) conditions, and applies `otherwise` outcome if all fail", function () {
-    var config = {
-      "Person will be in house if person is tired or hungry": {
-        if: [
-          {"person.tired": true},
-          {"person.hungry": true}
-        ],
-        then: {
-          "person.location": "house"
-        },
-        otherwise: {
-          "person.location": "work"
-        }
-      }
-    };
-    var data = {
-      person: {
-        tired: false,
-        hungry: false
-      }
-    };
-
-    var rules = new Rules(config);
-    rules.run(data);
-
-    assert.equal(data.person.location, "work");
-  });
-
-  it("populates multiple outcomes into an array when [] is added", function () {
+  it("populates multiple outcomes into an array when [] is added", function() {
     var config = {
       "Must be 21 or older": {
         if: {
-          "person.age": {lessThan: 21}
+          "person.age": { lessThan: 21}
         },
-
         then: {
           "errors[]": "Must be 21 or older"
         }
@@ -159,11 +75,11 @@ describe("Rules", function () {
     ]);
   });
 
-  it("doesn't throw path errors with strict:false", function () {
+  it("doesn't throw path errors with strict:false", function() {
     var config = {
       "name must be set": {
         if: {
-          "person.name": {not: undefined}
+          "person.name": { not: undefined }
         },
         then: {
           "errors[]": "Must have a name"
@@ -177,16 +93,16 @@ describe("Rules", function () {
       },
     };
     var rules = new Rules(config);
-    assert.doesNotThrow(function () {
+    assert.doesNotThrow(function() {
       rules.run(data);
     }, "should not throw path errors with strict:false");
   });
 
-  it("throws path errors with strict:true", function () {
+  it("throws path errors with strict:true", function() {
     var config = {
       "name must be set": {
         if: {
-          "person.name": {not: undefined}
+          "person.name": { not: undefined }
         },
         then: {
           "errors[]": "Must have a name"
@@ -200,16 +116,16 @@ describe("Rules", function () {
       },
     };
     var rules = new Rules(config, {strict: true});
-    assert.throws(function () {
+    assert.throws(function() {
       rules.run(data);
     }, "should throw path errors with strict:false");
   });
 
-  it("doesn't run tests for path errors with strict:false", function () {
+  it("doesn't run tests for path errors with strict:false", function() {
     var config = {
       "name must be set": {
         if: {
-          "person.age": {between: [10, 20]}
+          "person.age": { between: [10,20] }
         },
         then: {
           "errors[]": "Must be between 10 and 20"
@@ -227,14 +143,14 @@ describe("Rules", function () {
   });
 });
 
-describe("options", function () {
-  it("stringNumbers: false prevents parsing of numbers", function () {
+describe("options", function() {
+  it("stringNumbers: false prevents parsing of numbers", function() {
     var data = {age: "14"};
 
     var config = {
       "Younger than 16 can't drive": {
         if: {
-          "age": {lessThan: 16}
+          "age": { lessThan: 16}
         },
         then: {
           "canDrive": false
@@ -246,20 +162,20 @@ describe("options", function () {
     var error;
     try {
       rules.run(data);
-    } catch (e) {
+    } catch(e) {
       error = true;
     }
 
     assert(error);
   });
 
-  it("rulesModifyData: false creates new object of rule outcomes", function () {
+  it("rulesModifyData: false creates new object of rule outcomes", function() {
     var data = {age: 15};
 
     var config = {
       "Younger than 16 can't drive": {
         if: {
-          "age": {lessThan: 16}
+          "age": { lessThan: 16}
         },
         then: {
           "cantDrive": true
@@ -274,13 +190,13 @@ describe("options", function () {
     assert.equal(data.cantDrive, undefined);
   });
 
-  it("rulesModifyData: true modifies data with outcomes", function () {
+  it("rulesModifyData: true modifies data with outcomes", function() {
     var data = {age: 15};
 
     var config = {
       "Younger than 16 can't drive": {
         if: {
-          "age": {lessThan: 16}
+          "age": { lessThan: 16}
         },
         then: {
           "cantDrive": true
@@ -294,17 +210,17 @@ describe("options", function () {
     assert.equal(data.cantDrive, true);
   });
 
-  it("caseSensitive: false ignores case on contains", function () {
+  it("caseSensitive: false ignores case on contains", function() {
     var data = {
-      person: {jobDescription: "Nursing management and oversight"}
+      person: { jobDescription: "Nursing management and oversight" }
     };
 
     var config = {
       "Anything to do with nursing is a good thing": {
         if: {
-          "person.jobDescription": {contains: "nursing"}
+          "person.jobDescription": { contains: "nursing" }
         },
-        then: {"status.hasGoodJob": true}
+        then: { "status.hasGoodJob": true }
       }
     };
 
@@ -314,7 +230,7 @@ describe("options", function () {
     assert.equal(results.status.hasGoodJob, true);
   });
 
-  it("caseSensitive: false ignores case on equality", function () {
+  it("caseSensitive: false ignores case on equality", function() {
     var data = {
       name: "John"
     };
@@ -324,7 +240,7 @@ describe("options", function () {
         if: {
           "name": "john"
         },
-        then: {"status.hasGreatName": true}
+        then: { "status.hasGreatName": true }
       }
     };
 
