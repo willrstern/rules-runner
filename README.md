@@ -60,8 +60,70 @@ assert.deepEqual(data.errors.all, ["person", "company"]);
 //var results = rules.run(data, {rulesModifyData: false});
 ```
 
+
+#Also possible to test a series of if statements in an Array, as OR like conditionals
+
+```js
+
+var config = {
+    "Person will be in house if person is tired or hungry": {
+            if: [
+                {"person.tired": true},
+                {"person.hungry": true}
+            ],
+            then: {
+                "person.location": "house"
+            }
+        }
+    };
+    
+var data = {
+    person: {
+        tired: false,
+        hungry: true
+    }
+};
+
+var rules = new Rules(config);
+rules.run(data);
+
+assert.equal(data.person.location, 'house');
+```
+
+#And if no conditions are true, then process an `otherwise` clause
+
+
+```js
+
+var config = {
+    "Person will be in house if person is tired or hungry": {
+        if: [
+            {"person.tired": true},
+            {"person.hungry": true}
+        ],
+        then: {
+            "person.location": "house"
+        },
+        otherwise: { // if all conditions are false
+            "person.location": 'work'
+        }
+    }
+};
+var data = {
+    person: {
+        tired: false,
+        hungry: false
+    }
+};
+
+var rules = new Rules(config);
+rules.run(data);
+
+assert.equal(data.person.location, 'work');
+```
+
 # Comparators/Tests
-- **between**: `"person.age": {between: [1, 20]}`
+- **between**: `"person.age": {between: [1, 20]}` (note: this is exclusive of given values)
 - **equality/scalar values**: `"person.exists": true` `"person.firstName": "John"`
 - **contains**: `"person.name": {contains: "Jr"}`` (also checks for values in arrays)
 - **greaterThan**: `"person.age": {greaterThan: 20}`
