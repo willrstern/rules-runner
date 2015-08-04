@@ -77,49 +77,49 @@ var config = {
         }
     };
     
-    var data = {
-        person: {
-            tired: false,
-            hungry: true
-        }
-    };
-    
-    var rules = new Rules(config);
-    rules.run(data);
-    
-    assert.equal(data.person.location, 'house');
+var data = {
+    person: {
+        tired: false,
+        hungry: true
+    }
+};
+
+var rules = new Rules(config);
+rules.run(data);
+
+assert.equal(data.person.location, 'house');
 ```
 
-#And if no conditions are true, then process an elseThen clause
+#And if no conditions are true, then process an `otherwise` clause
 
 
 ```js
 
 var config = {
-            "Person will be in house if person is tired or hungry": {
-                if: [
-                    {"person.tired": true},
-                    {"person.hungry": true}
-                ],
-                then: {
-                    "person.location": "house"
-                },
-                elseThen: { // if all conditions are false
-                    "person.location": 'work'
-                }
-            }
-        };
-        var data = {
-            person: {
-                tired: false,
-                hungry: false
-            }
-        };
+    "Person will be in house if person is tired or hungry": {
+        if: [
+            {"person.tired": true},
+            {"person.hungry": true}
+        ],
+        then: {
+            "person.location": "house"
+        },
+        otherwise: { // if all conditions are false
+            "person.location": 'work'
+        }
+    }
+};
+var data = {
+    person: {
+        tired: false,
+        hungry: false
+    }
+};
 
-        var rules = new Rules(config);
-        rules.run(data);
+var rules = new Rules(config);
+rules.run(data);
 
-        assert.equal(data.person.location, 'work');
+assert.equal(data.person.location, 'work');
 ```
 
 # Comparators/Tests
