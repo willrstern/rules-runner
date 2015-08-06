@@ -122,7 +122,7 @@ assert.equal(data.person.location, 'work');
 ```
 
 # Comparators/Tests
-- **between**: `"person.age": {between: [1, 20]}` (note: this is exclusive of given values)
+- **between**: `"person.age": {between: [1, 20]}`
 - **equality/scalar values**: `"person.exists": true` `"person.firstName": "John"`
 - **contains**: `"person.name": {contains: "Jr"}`` (also checks for values in arrays)
 - **greaterThan**: `"person.age": {greaterThan: 20}`
