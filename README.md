@@ -61,7 +61,7 @@ assert.deepEqual(data.errors.all, ["person", "company"]);
 ```
 
 
-#Use an array of `if` statements to treat conditions as `else if` or `OR like`
+##Use an array of `if` statements to treat conditions as `else if` or `OR like`
 
 ```js
 
@@ -90,7 +90,7 @@ rules.run(data);
 assert.equal(data.person.location, 'house');
 ```
 
-#`otherwise` will process if no conditions match
+##`otherwise` will process if no conditions match
 
 ```js
 
