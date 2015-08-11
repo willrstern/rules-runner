@@ -61,4 +61,52 @@ describe("equality comparator", function() {
 
     assert.equal(results.status.bonus, 500);
   });
+
+  it("matches null values", function() {
+    var data = {
+      person: {
+        profile: null,
+      }
+    };
+
+    var config = {
+      "Null profile gets a flag": {
+        if: {
+          "person.profile": null,
+        },
+        then: {
+          "status.flag": true,
+        }
+      }
+    };
+
+    var rules = new Rules(config);
+    var results = rules.run(data);
+
+    assert.equal(results.status.flag, true);
+  });
+
+  it("matches undefined values", function() {
+    var data = {
+      person: {
+        profile: undefined,
+      }
+    };
+
+    var config = {
+      "Undefined profile gets a flag": {
+        if: {
+          "person.profile": undefined,
+        },
+        then: {
+          "status.flag": true,
+        }
+      }
+    };
+
+    var rules = new Rules(config);
+    var results = rules.run(data);
+
+    assert.equal(results.status.flag, true);
+  });
 });
